@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<title>JS the good parts</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+		<script type="text/javascript" src="js/program.js" ></script>
+	</head>
+	<body>
+		<div class="container">
+			<center>
+				<h1>Javascript the good parts</h1>
+			</center>
+
+			<h2>Hello and welcome to the test document, let's begin!</h2>
+		
+			<h3>Using objects in javascript</h3>
+			<p>The followint snippet will create an object of the type frutas and will print the values setted on this screen, this is done via object by creating a global object variable called <span class="codigo">JSGood</span>, you can view the <span class="codigo">program.js</span> for further information.</p>
+			<div class="example">
+				<h3>Simple object example</h3>
+				<p>At the beginning we create an object, and we print a list of property of <i class='codigo'>frutas</i> as it is by default </p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums">
+<code>// crea un objeto del tipo fruta con los atributos que tenga fruta
+var another_stooge = Object.create(JSGood.frutas);
+JSGood.listPropertiesOf(another_stooge);</code></pre>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">
+						// crea un objeto del tipo fruta con los atributos que tenga fruta
+						var another_stooge = Object.create(JSGood.frutas);
+						JSGood.listPropertiesOf(another_stooge);
+					</script>
+				</div>
+
+				<p>Then we will set the properties of the object to <span class="codigo">name: Apple</span> and <span class="codigo">color: red</span> via function <span class='codigo'>setValues</span> and we create a new property called <i>nickname</i> then we get the following result</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums:4">
+JSGood.frutas.setValues("Apple","red");
+another_stooge.nickname = "manzana";
+JSGood.listPropertiesOf(another_stooge);</pre>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">
+						JSGood.frutas.setValues("Apple","red");
+						another_stooge.nickname = "manzana";
+						JSGood.listPropertiesOf(another_stooge);
+					</script>
+				</div>
+				<p>Then we delete the property <i>nickname</i> and print the resulting object after deletion, notice it is different to put the object value to <i>null</i> or " " or ""</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums:7">
+<code>delete another_stooge.nickname;
+JSGood.listPropertiesOf(another_stooge);</code></pre>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">
+						delete another_stooge.nickname;
+						JSGood.listPropertiesOf(another_stooge);
+					</script>
+				</div>
+			</div>
+
+			<div class="example">
+				<h3>Writing myObject method example</h3>
+				<p>invoking a function as a method the initial value of value is</p>
+				<h4>Code</h4>
+<pre class="codigo medium prettyprint linenums" ><code>JSGood.myObject.value  //value is initially zero
+JSGood.myObject.increment();
+JSGood.myObject.value; //value here is 1
+JSGood.myObject.increment(2);
+JSGood.myObject.value; //value here is 3</code></pre>
+<script type="text/javascript">JSGood.myObject.value
+				JSGood.myObject.increment();
+				</script>
+				<p>we call the function <span class="codigo">increment</span> without any params and the value then comes to be 1. Then we call <span class="codigo">JSGood.myObject.increment(2)</span> in order to add 2 and we then get the value </p>
+				<script type="text/javascript">
+					JSGood.myObject.value;
+					JSGood.myObject.increment(2);
+					document.writeln(JSGood.myObject.value);
+				</script>
+			</div>
+
+			<div class="example">
+				<h3>Function invocation</h3>
+				<h4>Function invocation pattern</h4>
+				<p>it is important to have the context, thus that whenever calling a method, there are two special params that are always recieved in addition of any of the params that the function has predefined, this params are <i>arguments</i> and <i>this</i>, the <i>this</i> param allows to get access to the properties of the object that is calling the function, however when defining a function like this</p>
+				<pre class="codigo small prettyprint linenums">
+<code><b>var</b> sum = add( a + b);</code></pre>
+				<p>when definining a function like that will not allow the function to pass params to an additional param defined between this one... to fix this, try the following</p>
+				<!-- <div class="codigo medium"> -->
+					<pre class=" codigo medium prettyprint linenums"><code><b><i>function</i> add</b>(num1, num2){
+	return num1 + num2;
+};
+
+myObject{
+	value: 0,
+	increment: <b>function</b>(inc){
+		this.value += typeof inc === 'number' ? inc : 1;
+	},
+	double: <b>function</b>(){
+		var that = this;
+		var helper = <b>function</b>(){
+			that.value = add(that.value, that.value);
+		}
+		helper();
+	}
+}
+myObject.value = 3;
+myObject.double();</code></pre>
+				<h4>Result</h4>
+				<script type="text/javascript">
+					var sum = add(3,4);
+					JSGood.myObject.double();
+				</script>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">JSGood.listPropertiesOf(JSGood.myObject)</script>
+				</div>				
+			</div>
+
+		</div>
+	</body>
+</html>

@@ -1,0 +1,61 @@
+html, body {
+	margin: 0;
+	border: none;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	/*margin: 0;*/
+	padding: 0;
+}
+
+h4{ margin: 0;}
+
+.container {
+	margin: 0 auto;
+	width: 950px;
+}
+
+.example {
+	background-color: #eaeaea;
+	border: 1px solid black;
+	border-radius: 5px;
+	margin-bottom: 50px;
+	padding: 0 0 30px 30px;
+}
+
+.codigo {
+	background-color: #eaeaea;
+	border: 1px solid #000088;
+	border-radius: 5px;
+	font-style: italic;
+	padding: 0 5px;
+}
+
+.atributo {
+	color: #0f0;
+	font-weight: bold;
+}
+
+.valor {
+	color: #fff;
+	font-weight: normal;
+}
+
+.codigo.small {
+	width: 300px;
+	padding: 10px;
+	font-style: normal;
+}
+
+.codigo.medium {
+	width: 600px;
+	padding: 20px;
+	font-style: normal;
+}
+
+.codigo.large {
+	width: 900px;
+	padding: 20px;
+	font-style: normal;
+}
