@@ -1,0 +1,501 @@
+<html>
+	<head>
+		<title>JS the good parts</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+		<script type="text/javascript" src="js/program.js" ></script>	
+	</head>
+	<body>
+		<div class="container">
+			<center>
+				<h1>Javascript the good parts</h1>
+			</center>
+
+			<h2>Chapter 4: <b>Function</b></h2>
+		
+			<h3><a id="chapter-index" href="#chapter-index">About this chapter</a></h3>
+			<p>The followint snippets are mostly contained at <span class="codigo">JSGood</span>, you can view the complete <span class="codigo">program.js</span> for further information. Here is the list of the topics given in this chapter</p>
+			<ol>
+				<li><a href="#object">Simple object</a></li>
+				<li><a hreF="#objectMethod">Object method</a></li>
+				<li><a href="#invocation">Function invocation</a></li>
+				<li><a href="#constructor">The constructor invoctaion pattern</a></li>
+				<li><a href="#apply">The apply invocation patern</a></li>
+				<li><a href="#trycatch">Try, catch and exception</a></li>
+				<li><a href="#augmented">Augmented Types</a></li>
+				<li><a href="#recursion">Recursion</a></li>
+				<li><a href="#scope">Scope</a></li>
+				<li><a href="#closure">Closure</a></li>
+				<li><a href="#callbacks">Callbacks</a></li>
+			</ol>
+
+			<p>if you need to review any previous chapter you can go back by clicking <a href="index.html">here</a></p>
+
+			<div id="object" class="example">
+				<h3><a href="#object">simple object example</a><span class="up"><a href="#chapter-index">Up</a></span></h3>
+				<p>At the beginning we create an object, and we print a list of property of <i class='codigo'>frutas</i> as it is by default </p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums">
+<code>// crea un objeto del tipo fruta con los atributos que tenga fruta
+var another_stooge = Object.create(JSGood.frutas);
+JSGood.listPropertiesOf(another_stooge);</code></pre>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">
+						// crea un objeto del tipo fruta con los atributos que tenga fruta
+						var another_stooge = Object.create(JSGood.frutas);
+						JSGood.listPropertiesOf(another_stooge);
+					</script>
+				</div>
+
+				<p>Then we will set the properties of the object to <span class="codigo">name: Apple</span> and <span class="codigo">color: red</span> via function <span class='codigo'>setValues</span> and we create a new property called <i>nickname</i> then we get the following result</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums:4">
+JSGood.frutas.setValues("Apple","red");
+another_stooge.nickname = "manzana";
+JSGood.listPropertiesOf(another_stooge);</pre>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">
+						JSGood.frutas.setValues("Apple","red");
+						another_stooge.nickname = "manzana";
+						JSGood.listPropertiesOf(another_stooge);
+					</script>
+				</div>
+				<p>Then we delete the property <i>nickname</i> and print the resulting object after deletion, notice it is different to put the object value to <i>null</i> or " " or ""</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums:7">
+<code>delete another_stooge.nickname;
+JSGood.listPropertiesOf(another_stooge);</code></pre>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">
+						delete another_stooge.nickname;
+						JSGood.listPropertiesOf(another_stooge);
+					</script>
+				</div>
+			</div>
+
+			<div id="objectMethod" class="example">
+				<h3><a href="#objectMethod">writing myobject method example</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p>invoking a function as a method the initial value of value is</p>
+				<h4>Code</h4>
+<pre class="codigo medium prettyprint linenums" ><code>JSGood.myObject.value  //value is initially zero
+JSGood.myObject.increment();
+JSGood.myObject.value; //value here is 1
+JSGood.myObject.increment(2);
+JSGood.myObject.value; //value here is 3</code></pre>
+<script type="text/javascript">JSGood.myObject.value
+				JSGood.myObject.increment();
+				</script>
+				<p>we call the function <span class="codigo">increment</span> without any params and the value then comes to be 1. Then we call <span class="codigo">JSGood.myObject.increment(2)</span> in order to add 2 and we then get the value </p>
+				<script type="text/javascript">
+					JSGood.myObject.value;
+					JSGood.myObject.increment(2);
+					document.writeln(JSGood.myObject.value);
+				</script>
+			</div>
+
+			<div id="invocation" class="example">
+				<h3><a href="#invocation">function invocation</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<h4>Function invocation pattern</h4>
+				<p>it is important to have the context, thus that whenever calling a method, there are two special params that are always recieved in addition of any of the params that the function has predefined, this params are <i>arguments</i> and <i>this</i>, the <i>this</i> param allows to get access to the properties of the object that is calling the function, however when defining a function like this</p>
+				<pre class="codigo small prettyprint linenums">
+<code><b>var</b> sum = add( a + b);</code></pre>
+				<p>when definining a function like that will not allow the function to pass params to an additional param defined between this one... to fix this, try the following</p>
+				<!-- <div class="codigo medium"> -->
+					<pre class=" codigo medium prettyprint linenums"><code><b><i>function</i> add</b>(num1, num2){
+	return num1 + num2;
+};
+
+myObject{
+	value: 0,
+	increment: <b>function</b>(inc){
+		this.value += typeof inc === 'number' ? inc : 1;
+	},
+	double: <b>function</b>(){
+		var that = this;
+		var helper = <b>function</b>(){
+			that.value = add(that.value, that.value);
+		}
+		helper();
+	}
+}
+myObject.value = 3;
+myObject.double();</code></pre>
+				<h4>Result</h4>
+				<script type="text/javascript">
+					var sum = add(3,4);
+					JSGood.myObject.double();
+				</script>
+				<div class="codigo small prettyprint">
+					<script type="text/javascript">JSGood.listPropertiesOf(JSGood.myObject)</script>
+				</div>
+			</div>
+
+			<div id="constructor" class="example">
+				<h3><a href="#constructor">the constructor invocation pattern</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p>Basically what we have here is an example of a constructor, this approach is not <b>recommended</b></p>
+				<h4>Code</h4>
+<pre class="codigo medium prettyprint linenums"><code>var Quo = function(string) {
+	this.status = string;
+}
+Quo.prototype.get_status = function(){
+	return this.status;
+}
+
+var myQuo = new Quo("confused");</code></pre>
+				<script type="text/javascript">
+					var Quo = function(string) {
+						this.status = string;
+					}
+					Quo.prototype.get_status = function(){
+						return this.status;
+					}
+
+					var myQuo = new Quo("confused");
+				</script>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint" style="color: white;">
+					<span class="inco">Properties of myQuo</span> <br> <script type="text/javascript">JSGood.listPropertiesOf(myQuo);</script>
+				</div>
+			</div>
+
+			<div id="apply" class="example">
+				<h3><a href="#apply">The <b>apply</b> invocation pattern</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p>The following code shows two excellent functions of javascript, the first is <i>arguments</i> which is an additional param passed to the function, it conatins all of the params received, even those that aren't defined under the function's params, the other function is <i>apply</i> which receive two params, the first is <i>this</i> in order to access the variables on the context where the function was called, the second param is an array, which will use all the elements of the array as an individual param for the function.</p>
+				<h4>Code</h4>
+<pre class="codigo medium prettyprint linenums"><code>function sumAll(){
+	var args = Array.prototype.slice.call(arguments);
+	resultado = 0;
+	for (var i = 0; i < args.length; i++) {
+		resultado += args[i];
+	};
+
+	return resultado;
+};
+
+var arreglo = [1,2,3,4,5];
+alert(JSGood.sumAll.apply(null, arreglo)); // El resultado retornara 15</code></pre>
+				
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<span class="inco">Properties of JSGood</span> <br>
+					<script type="text/javascript">
+						var arreglo = [1,2,3,4,5];
+						var suma = JSGood.sumAll.apply(this, arreglo);
+						JSGood.listPropertiesOf(JSGood);
+					</script>
+				</div>
+			</div>
+
+			<div id="trycatch" class="example">
+				<h3><a href="#trycatch">try, catch and exception</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p>In this sample the function add is improved to trhow an exception in the event that any of the parameters is not a number, then the this exception will be encapsulated in a <i>try-catch</i> statement, which is there to catch runtime errors </p>
+				<h4>Code</h4>
+<pre class="codigo medium prettyprint linenums"><code>var add = function (a, b) {
+	if (typeof a !== 'number' || typeof b !== 'number') {
+		throw {
+			name: 'TypeError',
+			message: 'add needs numbers'
+		};
+	}
+	return a + b;
+}
+
+var try_it = function ( ) {
+	try {
+		add("seven");
+	} catch (e) {
+		document.writeln(e.name + ': ' + e.message);
+	}
+}
+
+try_it();</code></pre>
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<span class="inco">Properties of JSGood</span> <br>
+					<script type="text/javascript">
+							var try_it = function(){
+								try {
+									add("seven", 3);
+								} catch (e) {
+									document.writeln("<span class='atributo'>"+e.name+":</span><span class='valor'> "+e.message+"</span> <span class='comment'>// current msg</span<br><br><br>	");
+									document.writeln("<span class='inco'>Properties of the exception \' e \'</span> <br>");
+									JSGood.listPropertiesOf(e);
+								}
+							}
+
+							try_it();
+					</script>
+				</div>
+			</div>
+
+			<div id="augmented" class="example">
+				<h3><a href="#augmented">augmented types</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p>There is the possibility of extending some properties of the object and as everything is an object, then it is posible to extend the functionality of these objects, this code shows some examples</p>
+
+				<h4>Code</h4>
+<pre class="codigo medium prettyprint linenums"><code>// This definition creates a function called method which creates a 
+// property for any function given, which will turns to be another 
+// function
+Function.prototype.method = function(name, func){
+	this.prototype[name] = func;
+	return this;
+};
+// This implementation will allow to extend the functionality of
+// other object, as the following method allows to retrieve the 
+// integer part of a given number
+
+Number.method('integer', function ( ) {
+	return Math[this < 0 ? 'ceil' : 'floor'](this);
+});
+
+document.writeln((-10/3).integer()); //This produces the number -3
+document.writeln((10/3).integer()); //This produces the number 3</code></pre>
+				<p>some other usefull implementation can be to implement a trim method to the string class, this can be achieved by doing the following</p>
+				<h4>Code</h4>
+<pre class="codigo large prettyprint linenums"><code> // This adds the trim method to String class which is also an object
+String.method('trim',function(){
+	// replaces multiple sapces between words with single space ' '
+	this = this.replace(/\b\s+|\s+\b/g,' ')
+	// the return will take away the white spaces at the beginning and at the end of each line
+	return this.replace(/^\s+|\s+$/g, '');
+});
+var str = "    this          has         white                        spaces           ";
+document.writeln(str.trim());</code></pre>
+				
+				<h4>Result</h4>
+				<div class="codigo medium prettyprint">
+					<script type="text/javascript">
+						var str = "       this                has            white                              spaces               ";
+						// JSGood.listPropertiesOf(str.trim());
+					</script>
+					<span class="atributo">str : </span><span class="valor"><script type="text/javascript">document.writeln(str.trim());</script></span><br>
+					<span class="comment">/* The default behaviour of browser is to trim any character by default, hence this string would be trimmed anyways, to check the real behaviour it would be better to use <i>console.log(str.trim())</i> and view it on the console by pressing <i>Ctrl+Shift+11</i> or <i>F11</i> depending on your browser to see the javascript message log, alternatively you can also see this output using <i>alert(str.trim())</i> so that a pop up windows shows up as soon as you use it.*/</span>
+				</div>
+			</div>
+
+			<div id="recursion" class="example">
+				<h3><a href="#recursion">Recursion</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p>The follwing is an example of how recursivity can be used to resolve the hanoi towers paradigm</p>
+				
+				<h4>Code</h4>
+				<pre class="codigo large prettyprint linenums"><code>//This code solves hanoi towers recursively
+var hanoi = function(disc, src, aux, dst) {
+	if (disc > 0) {
+		hanoi(disc-1, src, dst, aux);
+		document.writeln('Move disc '+disc + ' from '+src +' to '+dst);
+		hanoi(disc-1, aux, src, dst)
+	};
+}</code></pre>
+				<h4>Result</h4>
+				<div class="codigo medium prettyprint">
+					<span class="inco">Movement done by the recursive algorithm</span> <br>
+					<script>
+						hanoi(3, 'Src', 'Aux', 'Dst');
+					</script>
+					<br><span class="inco">Visual description of the movement list </span> <br>
+					<img src="img/hanoi.gif" style="background-color: #eaeaea;">
+				</div>
+				<p>The follwing code needs further explanations but it uses FunctionExpression to go through the DOM tree in a recursive way, each time it hits a function the same process is called again, further, this function is used in order to getElementsByAttribute.</p>
+				<h4>Code</h4>
+				<pre class="codigo large prettyprint linenums"><code>// Define a walk_the_DOM function that visits every
+// node of the tree in HTML source order, starting
+// from some given node. It invokes a function,
+// passing it each node in turn. walk_the_DOM calls
+// itself to process each of the child nodes.
+var walk_the_DOM = function walk(node, func) {
+	func(node);
+	node = node.firstChild;
+	while (node) {
+		walk(node, func);
+		node = node.nextSibling;
+	}
+};
+
+// Define a getElementsByAttribute function. It
+// takes an attribute name string and an optional
+// matching value. It calls walk_the_DOM, passing it a
+// function that looks for an attribute name in the
+// node. The matching nodes are accumulated in a
+// results array.
+var getElementsByAttribute = function (att, value) {
+	var results = [];
+	walk_the_DOM(document.body, function (node) {
+		var actual = node.nodeType === 1 && node.getAttribute(att);
+		if (typeof actual === 'string' && 
+					(actual === value || typeof value !== 'string')) {
+			results.push(node);
+		}
+	});
+	return results;
+};</code></pre>
+				
+				<P>Javascript doesn't support tails recursive, but it's not a big deal, it can be resolved like this</P>
+				<h4>Code</h4>
+				<pre class="codigo large prettyprint linenums"><code>//This code is a solution for tail recursive
+var factorial = function factorial(i,a) {
+	a = a || 1;
+	if (i < 2) {
+		return a;
+	}
+	return factorial(i-1,a*i);
+};
+factorial(4); //returns 24</code></pre>
+				<h4>Result</h4>
+				<div class="codigo medium prettyprint">
+					<span class="atributo">factorial(4) : </span>
+					<span class="valor"><script>
+						document.writeln(factorial(4));
+					</script>
+					</span>
+					<br>
+				</div>
+			</div>
+
+			<div id="scope" class="example" >
+				<h3><a href="#scope">Scopes</a><span class="up"><a href="#chapter-index">Up</a></span></h3>
+
+				<p>The scope controls the visibility and lifetimes of variables and parameters.</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums"><code>// this show scopes functionality
+var foo = function(){
+	var a = 3, b = 5;
+	var bar = function(){
+		var b = 7, c = 11;
+		// at this point, a is 3, b is 7 and c is 11
+		a+= b + c;
+		// at this point, a is 21, b is 7 and c is 11
+	};
+	// at this point, a is 3, b is 5 and c IS NOT defined
+	bar();
+	// at this point, is 21 and b is 5
+};</code></pre>
+			</div>
+
+			<div id="closure" class="example" >
+				<h3><a href="#closure">Closure</a><span class="up"><a href="#chapter-index">Up</a></span></h3>
+
+				<p>The closure is the ability of a defined variable to gain access to properties defined at the declaration time, to be more clear first see the following code.</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums"><code>var my2ndQuo = function(status){
+	return {
+		get_status: function(){
+			return status;
+		}
+	};
+};
+var myQuo = quo("amazed");
+document.writeln(myQuo.get_status( ));</code></pre>
+	
+				<h4>Result</h4>
+				<div class="codigo small prettyprint">
+					<span class="atributo">myQuo.get_status() :</span><span class="valor" > amazed</span>
+				</div>
+				<p>The variable myQuo is able to gets_tatus and adress it's proper value because it has access to the variable itself hence it can modify it or read it in this case, but this example doesn't show much of how this can be use, so take a look ahead</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums"><code>// Define a function that sets a DOM node's color
+// to yellow and then fades it to white.
+var fade = function (node) {
+	var level = 1;
+	var step = function () {
+		var hex = level.toString(16);
+		node.style.backgroundColor = '#FFFF' + hex + hex;
+		if (level < 15) {
+			level += 1;
+			setTimeout(step, 100);
+		}
+	};
+	setTimeout(step, 100);
+};
+fade(document.getElementById("#clickExample"));</code></pre>
+			<p id="clickExample">In order to show this example in action the background of this specific segment will change its color from gray to yellow and then will fade the background until it becomes white, to see it click this button <button id="boton_fade" onclick='click_example();'>Fade now!</button> </p>
+
+			<h3>Bad and good use<span class="up"><a href="#chapter-index">Up</a></span></h3>
+			<p>We need to be very careful when using the closure, take a look at the following examples.</p>
+			<h4>Code</h4>
+			<pre class="codigo medium prettyprint linenums"><code>// this example is badly implemented, it is supposed to add a number
+// to each of the following division and add an onclick event, and 
+// whenever you click in one of these divs, an alert with the number
+// that was assigned should come up... but.
+var add_the_handlers_bad_example = function (nodes) {
+	var i;
+		for (i = 0; i < nodes.length; i += 1) {
+			nodes[i].onclick = function (e) {
+			alert(i);
+		};
+	}
+};
+// calling the functions on div_example will make all the click on 
+// divs to return the final state of i which was 10, hence making 
+// a bad use of the closure for this example
+add_the_handlers_bad_example(
+		document.getElementByClassName("div_example")
+	);
+
+// instead if you proceed to describe the function this way...
+var add_the_handlers = function (nodes) {
+	console.log("we recived"+nodes);
+	var i;
+	for (i = 0; i < nodes.length; i += 1) {
+		nodes[i].onclick = function (i) {
+			return function(e) {
+				alert(i);
+			};
+		}(i);
+	}
+};</code></pre>
+				<h4>Result</h4>
+				<div class="codigo medium prettyprint">
+					<span class="atributo">Note : </span><span class="valor">if you press the <i>Bad script</i>, then all the divs will show the same number
+						when you click on them, but if you activate the <i>Good script</i>, each div will show its respective number</span><br><br>
+					<div class="div_example">0</div>
+					<div class="div_example">1</div>
+					<div class="div_example">2</div>
+					<div class="div_example">3</div>
+					<div class="div_example">4</div>
+					<div class="div_example">5</div>
+					<div class="div_example">6</div>
+					<div class="div_example">7</div>
+					<div class="div_example">8</div>
+					<div class="div_example">9</div>
+					<br>
+					<br>
+					<button id="bad" onclick="bad_example()">Bad script!</button>
+					<button id="good" onclick="good_example()">Good script!</button><br>
+				</div>
+				<p>The reason behind this behaviour is that the good example defines a function and inmeadiatly invokes it passing the parameter i, so that way the function and its properties are set to specific value that the invocation had when it was summoned. Not the actual value of i that was defined by its predecesor, btw, notice that the definition is nothing but a property of <i>add_the_handlers</i> function, recalling they're all objects</p>
+			</div>
+
+			<div id="callbacks" class="example">
+				<h3><a href="#callbacks">Callbacks</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p>Basically a callback is a way of invoking a function but only once another first function has completed some task.</p>
+				<h4>Code</h4>
+				<pre class="codigo medium prettyprint linenums" ><code>//This is how normal call would be handle
+
+request = prepare_the_request();
+// note that the next line can take a lot and freeze 
+// the visaulization of the user
+response = send_request_asyncronously(request);
+display(response);
+
+// Instead javascript can handle an event after the function
+// is actually called like the example bellow
+request = prepare_the_request();
+send_request_asyncronously(request, function(response){
+	display(response);
+});</code></pre>
+				<p>Note that the response is nothing but the return value of <i>send_request_asyncronously(request)</i> and we are telling the function to wait for that response to display it</p>
+				<script type="text/javascript"></script>
+				
+				<h4>Result</h4>
+				<span id="test"></span>
+				<div class="codigo small prettyprint">
+					<button>Fire sync event</button>
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
