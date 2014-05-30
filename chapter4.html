@@ -3,7 +3,7 @@
 		<title>JS the good parts</title>
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
-		<script type="text/javascript" src="js/program.js" ></script>	
+		<script type="text/javascript" src="js/program.js" ></script>
 	</head>
 	<body>
 		<div class="container">
@@ -27,6 +27,7 @@
 				<li><a href="#scope">Scope</a></li>
 				<li><a href="#closure">Closure</a></li>
 				<li><a href="#callbacks">Callbacks</a></li>
+				<li><a href="#module">Module</a></li>
 			</ol>
 
 			<p>if you need to review any previous chapter you can go back by clicking <a href="index.html">here</a></p>
@@ -492,7 +493,44 @@ send_request_asyncronously(request, function(response){
 				<h4>Result</h4>
 				<span id="test"></span>
 				<div class="codigo small prettyprint">
-					<button>Fire sync event</button>
+					<button disabled="true">Fire sync event</button>
+				</div>
+			</div>
+
+			<div id="module" class="example">
+				<h3><a href="#module">Module</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<p></p>
+				<h4>Code</h4>
+			<pre class="codigo medium prettyprint linenums" ><code>String.method('deentityify', function(){
+	// The entity table. It maps entity names to characters.
+	var entity = {
+		quot: '"',
+		lt: "<",
+		gt: ">"
+	};
+
+	// Return the deentityify method
+	return function(){
+		// this the deentityify method. It calls the string 
+		// replace method, looking for substrings that starts 
+		// with '&' and end with ';'. If the characters in
+		// between  are in the entity table, ten replace the 
+		// entity with the character from the table. It uses 
+		// regex
+		return this.replace(/&([^&;]+);/g, function(a, b){
+			var r = entity[b];
+			return typeof r === 'string' ? r : a;
+		});
+	};
+}());
+
+document.writeln('&amp;lt;a href=&amp;quot;index.html&amp;quot;&amp;gt;'.deentityify());</code></pre>
+			<script type="text/javascript"></script>
+				<h4>Result</h4>
+				<div class="codigo medium prettyprint">
+					<span class="atributo">Intput : </span><span class="valor"><script type="text/javascript"></script>'&amp;lt;a href=&amp;quot;index.html&amp;quot;&amp;gt;'<span class="inco">.deentityify();</span></span>
+					<br>
+					<span class="atributo">Output : </span><span class="valor">&lt;a href=&quot;index.html&quot;&gt;&lt;/a&gt;</span>
 				</div>
 			</div>
 

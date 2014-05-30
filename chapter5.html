@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<title>JS the good pasrts</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+		<script type="text/javascript" src="js/chapter5.js" ></script>
+	</head>
+	<body>
+		<div class="container">
+			<center>
+				<h1>Javascript the good parts</h1>
+			</center>
+		
+			<h2>Chapter 5: <b>inheritance</b></h2>
+
+			<h3><a id="chapter-index" href="#chapter-index">About this chapter</a></h3>
+			
+			<p>You can view the complete code at <span class="codigo">chapter5.js</span> for further information. Here is the list of the topics given in this chapter</p>
+			<ol>
+				<li><a href="#pseudoclassical">Pseudoclassical</a></li>
+				<li><a href="#specifier">Object specifier</a></li>
+				<li><a href="#prototypal">Prototypal</a></li>
+				<li><a href="#functional">Functional</a></li>
+				<li><a href="#parts">Parts</a></li>
+			</ol>
+
+			<div id="pseudoclassical" class="example">
+				<h3><a href="pseudoclassical">Pseudoclassical</a><span class="up"><a href="#chapter-index">up</a></span></h3>
+				<h4>Short explanation</h4>
+				<p>A useful techique to avoid code dupĺication is inheritance, which provide or extends the functionality of one object to another, or at least it should be like that, it actually has one more step thant it is required, thus the prototypal behaviour of javascripts the obects are actually defined by a <i>constructor</i> something like <span class="codigo" >this.prototype = { constructor : this }</span> </p>
+				<h4>Code</h4>
+				
+				<pre class="codigo medium prettyprint linenums" ><code>// window.onload = function() {
+// 	console.log("Chapter 5 ...");
+// };
+
+function baseClass(){
+	this.publicProperty = 'Some value';
+};
+
+baseClass.prototype = {
+	doThis : function(){ console.log("this") },
+	doThat : function(){ console.log("that") }
+};
+
+function myClass() {
+};
+
+myClass.prototype = Object.create(baseClass.prototype);
+var obj = new myClass();
+
+console.log(obj.publicProperty);
+console.log(obj);
+
+obj.doThis();
+obj.doThat();
+
+myClass.prototype = new baseClass();
+obj = new myClass();
+console.log(obj.publicProperty);
+console.log(obj);
+
+obj.doThis();
+obj.doThat();</code></pre>
+				<script type="text/javascript"></script>
+				
+				<h4>Result</h4>
+				<div class="codigo medium prettyprint">
+					<span class="comment">
+						undefined
+					</span>
+					<br>
+					<span class="valor">
+						myClass {doThis: function, doThat: function}
+					</span>
+					<br>
+					<span class="comment">
+						this
+					</span>
+					<br>
+					<span class="valor">
+						that
+					</span>
+					<br>
+					<span class="comment">
+						Some value
+					</span>
+					<br>
+					<span class="valor">
+						myClass {publicProperty: "Some value", doThis: function, doThat: function}
+					</span>
+					<br>
+					<span class="comment">
+						this
+					</span>
+					<br>
+					<span class="valor">
+						that
+					</span>
+					<br>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

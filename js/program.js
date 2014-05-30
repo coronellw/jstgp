@@ -276,10 +276,31 @@ var func_multiply = new Function("arg1","arg2", "return arg1*arg2;");
 
 // alert(func_multiply(5,3));
 
+String.method('deentityify', function(){
+	// The entity table. It maps entity names to characters.
+	var entity = {
+		quot: '"',
+		lt: "<",
+		gt: ">"
+	};
+
+	// Return the deentityify method
+	return function(){
+		// this the deentityify method. It calls the string replace method, looking for substrings that starts 
+		// with '&' and end with ';'. If the characters in between are in the entity table, ten replace the 
+		// entity with the character from the table. It uses regex
+		return this.replace(/&([^&;]+);/g, function(a, b){
+			var r = entity[b];
+			return typeof r === 'string' ? r : a;
+		});
+	};
+}());
+
 window.onload = function(){
 	// fade(document.body);
 	// add_the_handlers_bad_example(document.getElementsByClassName("example"));
 	// add_the_handlers(document.getElementsByClassName("divex"));
-	sync_example();
+	// sync_example();
 	// async_example();
+	// alert('&lt;a href=&quot;index.html&quot;&gt;'.deentityify());
 };
